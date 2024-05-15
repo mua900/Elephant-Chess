@@ -2,7 +2,7 @@
 
 class Piece:
     value: int
-    letter: chr()
+    letter: str
 
 
 class Pawn(Piece):
