@@ -1,20 +1,23 @@
 root = true
 
 [*]
-# charset = utf-8
-# end_of_line = crlf
-# indent_size = 4
-# indent_style = space
-# insert_final_newline = true
-# max_line_length = 125
-# tab_width = 4
+charset = utf-8
+end_of_line = crlf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+max_line_length = 125
+tab_width = 4
 
 [{*.bash,*.sh,*.zsh}]
-# indent_size = 2
-# tab_width = 2
+indent_size = 2
+tab_width = 2
 
 [{*.har,*.json,*.jsonc}]
-# indent_size = 2
+indent_size = 2
 
 [*.py]
-# indent_size = 4
+indent_size = 4
+
+[*.cs]
+indent_size = 4

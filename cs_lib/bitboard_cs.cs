@@ -8,7 +8,7 @@ public class Bitboard
     // Bitboards will live and delt with here.
     public static int bitboard_generator(char piece_to_search, string board){
 
-        // Necesarry checks for valid inputs into function
+        // Necessary checks for valid inputs into function
         if (!"KkQqRrBbNnPp".Contains(piece_to_search)){
             Console.WriteLine("There is a problem with the piece we are searching on the board! - cs_Library>Bitboards>bitboard_generator");
         }

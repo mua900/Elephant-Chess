@@ -1,8 +1,12 @@
 # Wrapper for our .cs libraries
+# We will see if I can do this with pythonnet and mono
 
-import ctypes
+import os
+import pythonnet
+import clr
 
-cs_Library = ctypes.CDLL(".\\cs_lib\\bin\\Debug\\net8.0\\cs_lib.dll")
+crnt_dir = os.getcwd()
+btbrd_dll_pth = os.path.join(crnt_dir, "cs_mono", "bitboard.dll")
 
-def bitboard():
-    bitboard_generate = cs_Library.bitboard_generator()
+pythonnet.load("mono")
+clr.AddReference(btbrd_dll_pth)
