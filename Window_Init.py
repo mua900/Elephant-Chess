@@ -3,6 +3,8 @@ from typing import Any
 
 import pygame
 import sys
+import MathUtils as mu
+# mu stands for MathUtils
 
 pygame.init()
 
@@ -45,8 +47,13 @@ def draw_squares(win_width, win_height):
 
 # We want the window to be square. If its shape is too far off from being a square we try to squish it.
 ###TODO###
-def set_window_to_square():
-    pass
+def set_window_to_square(win_width, win_height):
+    if mu.ratio_close_to_desired(win_width, win_height,1,1/9):
+        pass
+    else:
+        pass
+        ##TODO##
+        ## Learn how to resize a window in pygame##
 
 while True:
     for event in pygame.event.get():
@@ -57,4 +64,5 @@ while True:
             WINDOW.fill(WHITE)
             window_width, window_height = WINDOW.get_width(), WINDOW.get_height()
             draw_squares(window_width, window_height)
+            ## set_window_to_square(window_width, window_height)
             pygame.display.update()
