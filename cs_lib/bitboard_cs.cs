@@ -1,8 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
-namespace cs_Library;
+namespace cs_lib;
 
-public class Bitboards
+public class Bitboard
 {
     // Bitboards will live and delt with here.
     public static int bitboard_generator(char piece_to_search, string board){

@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\muammer\\Programlama\\Python\\Chess Project\\New Chess Project\\cs Library\\cs Library.csproj",
-      "projectName": "cs Library",
-      "projectPath": "D:\\muammer\\Programlama\\Python\\Chess Project\\New Chess Project\\cs Library\\cs Library.csproj",
+      "projectUniqueName": "D:\\muammer\\Programlama\\Python\\Chess Project\\New Chess Project\\cs_lib\\cs_lib.csproj",
+      "projectName": "cs_lib",
+      "projectPath": "D:\\muammer\\Programlama\\Python\\Chess Project\\New Chess Project\\cs_lib\\cs_lib.csproj",
       "packagesPath": "C:\\Users\\mua36\\.nuget\\packages\\",
-      "outputPath": "D:\\muammer\\Programlama\\Python\\Chess Project\\New Chess Project\\cs Library\\obj\\",
+      "outputPath": "D:\\muammer\\Programlama\\Python\\Chess Project\\New Chess Project\\cs_lib\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mua36\\AppData\\Roaming\\NuGet\\NuGet.Config",
