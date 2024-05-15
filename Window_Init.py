@@ -1,5 +1,4 @@
 # Initialize window using pygame
-from typing import Any
 
 import pygame
 import sys
@@ -37,10 +36,8 @@ def draw_squares(win_width, win_height):
 # We want the window to be close to a square. If its shape is too far off, we try to squish or widen it. I have yet to
 # decide on either one.
 def set_window_to_square(win_width, win_height, event_w, event_h):
-    if not MathUtils.ratio_close_to_desired(win_width, win_height, 1, 1 / 9):
+    if not MathUtils.ratio_close_to_desired(win_width, win_height, 1, 1 / 10):
         bigger_one = max(event_h, event_w)
-        # lesser_one = min(event_h, event_w)
-        # maybe change according to the lesser_one
         pygame.display.set_mode((bigger_one, bigger_one), pygame.RESIZABLE)
 
 
@@ -50,7 +47,9 @@ while True:
             pygame.quit()
             sys.exit()
         elif event.type == pygame.VIDEORESIZE:
-            set_window_to_square(window_width, window_height, event.w, event.h)
+            if not event.type == pygame.FULLSCREEN:  # This check doesn't help anything
+                set_window_to_square(window_width, window_height, event.w, event.h)  # This is broken if you extend
+                # the window too much especially in fullscreen
         else:
             WINDOW.fill(WHITE)
             window_width, window_height = WINDOW.get_width(), WINDOW.get_height()
