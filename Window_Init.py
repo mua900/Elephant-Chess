@@ -2,7 +2,10 @@
 
 import pygame
 import sys
+import os
 import MathUtils
+import cairosvg
+from io import BytesIO
 
 pygame.init()
 
@@ -40,6 +43,37 @@ def set_window_to_square(win_width, win_height, event_w, event_h):
         bigger_one = max(event_h, event_w)
         pygame.display.set_mode((bigger_one, bigger_one), pygame.RESIZABLE)
 
+    if pygame.key.get_pressed():
+        load_pieces("kiwen-suwi", 0)
+
+
+def load_pieces(piece_set: str, sqr_positions):
+    # Load images // Files will be organized better later
+    # We use images we got from lichess so every single image file we have is .svg. // We are now also using cairosvg
+    images = []
+    piece_sets_dir = os.path.join(os.path.curdir, "Assets", "Piece_Sets")
+    if not os.path.exists(piece_sets_dir):
+        raise FileNotFoundError("AAFMCAAMvşkdmvk")
+    piece_set_path = os.path.join(piece_sets_dir, piece_set)
+    if not os.path.exists(piece_set_path):
+        raise FileNotFoundError(f"{piece_set} was not found in the {piece_sets_dir}")
+
+    for image in os.listdir(piece_set_path):
+        image_path = os.path.join(piece_set_path, image)
+        try:
+            images.append(svg_to_surface(image_path))
+        except pygame.error as pg:
+            print(f"Error loading image {image}: {pg}")
+
+    return images
+    # Draw the pieces we loaded in
+
+
+def svg_to_surface(svg_file):  # Necessary for the draw_pieces()
+    png_data = cairosvg.svg2png(url=svg_file)
+    image = pygame.image.load(BytesIO(png_data))
+    return image
+
 
 while True:
     for event in pygame.event.get():
@@ -47,7 +81,7 @@ while True:
             pygame.quit()
             sys.exit()
         elif event.type == pygame.VIDEORESIZE:
-            if not event.type == pygame.FULLSCREEN:  # This check doesn't help anything
+            if not event.type == pygame.FULLSCREEN:  # This check doesn't help anything ## TODO Fix this ##
                 set_window_to_square(window_width, window_height, event.w, event.h)  # This is broken if you extend
                 # the window too much especially in fullscreen
         else:
