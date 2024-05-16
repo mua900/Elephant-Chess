@@ -1,5 +1,4 @@
 # Wrapper for our .cs libraries
-# We will see if I can do this with pythonnet and mono
 
 import os
 import pythonnet

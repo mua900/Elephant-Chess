@@ -1,8 +1,10 @@
-# All off the chess Pieces as classes. Will be implemented with OOP.
+import math
+
 
 class Piece:
     value: int
     letter: str
+    color: int  # White = 0, black = 1
 
 
 class Pawn(Piece):
@@ -21,7 +23,7 @@ class Queen(Piece):
 
 
 class King(Piece):
-    Piece.value = 10000
+    Piece.value = math.inf
     letter = 'k'
 
 

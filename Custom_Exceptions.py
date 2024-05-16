@@ -1,8 +1,7 @@
-
 import traceback
 
 
-class Print_Problem(Exception):
+class PrintProblem(Exception):
     def __init__(self, problem_type, message):
         caller = traceback.extract_stack()[-2]
         filename = caller.filename

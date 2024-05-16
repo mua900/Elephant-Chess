@@ -14,7 +14,7 @@ BLACK = 1
 
 def fen_refine(fen: str):
     if " " not in fen:
-        raise Custom_Exceptions.Print_Problem("FEN Error", "FEN string must contain a space to separate the board and side to move.")
+        raise Custom_Exceptions.PrintProblem("FEN Error", "FEN string must contain a space to separate the board and side to move.")
 
     f = fen.split(" ")
     fen_board = f[0]
@@ -23,15 +23,15 @@ def fen_refine(fen: str):
     elif f[1].lower() == "b":
         color_to_move = BLACK
     else:
-        raise Custom_Exceptions.Print_Problem("FEN Error", "Invalid side to move. It must be 'w' or 'b'.")
+        raise Custom_Exceptions.PrintProblem("FEN Error", "Invalid side to move. It must be 'w' or 'b'.")
     # TODO We don't do anything about the last part of the FEN yet
 
     if "/" not in fen_board:
-        raise Custom_Exceptions.Print_Problem("FEN Error", "FEN board part must contain '/' to separate rows.")
+        raise Custom_Exceptions.PrintProblem("FEN Error", "FEN board part must contain '/' to separate rows.")
 
     rows: list = fen_board.split("/")
     if len(rows) != 8:
-        raise Custom_Exceptions.Print_Problem("FEN Error", "FEN board must have exactly 8 rows.")
+        raise Custom_Exceptions.PrintProblem("FEN Error", "FEN board must have exactly 8 rows.")
 
     rows.reverse()
     ref_fen = "/".join(rows)

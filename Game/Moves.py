@@ -1,5 +1,23 @@
-import MailboxBoard
 import Custom_Exceptions
+import MailboxBoard
+
+"""
+Explaining all var names above will be exhausting. All will be named according to this table where the most of the things are
+represented with a single later. Var names will be constructed from these.
+
+W = white
+B = black
+
+p = pawn
+n = knight
+k = king
+q = queen
+b = bishop
+r = rook
+
+brd = board
+pos = position (index on the board as it is a 1D array)
+"""
 
 
 class PiecePositionEncodings:
@@ -49,12 +67,12 @@ class PiecePositionEncodings:
             if self.board[i] == "q":
                 self.Bq_brd.append(i)
             else:
-                Custom_Exceptions.Print_Problem("Mailbox Error", "There are unknown chars in the mailbox!")
+                Custom_Exceptions.PrintProblem("Mailbox Error", "There are unknown chars in the mailbox!")
 
 
 ## TEST ##
 lgl_moves = PiecePositionEncodings(
-    MailboxBoard.MailboxBoard.get_board_from_fen("5rk1/2p1ppbp/B4np1/2pP4/P3P3/5Q1P/5PP1/1N4K1 b - - 0 22")[0])
+    MailboxBoard.get_board_from_fen("5rk1/2p1ppbp/B4np1/2pP4/P3P3/5Q1P/5PP1/1N4K1 b - - 0 22")[0])
 lgl_moves.generate_encodings()
 print(*lgl_moves.Bb_brd)
 ## TEST ##
@@ -70,8 +88,6 @@ list of moves we have. Which is concern for another day at the moment.
 Situations we can except when we check a square are encoded in the following way:
 empty = 0, there is a blocking piece = 1, there is an enemy piece to capture = 2, there is a check = 3
 """
-
-check: bool = False
 
 
 def take_step(brd: list, loc: int, step: int,
@@ -97,109 +113,76 @@ def take_step(brd: list, loc: int, step: int,
 def pawn_moves(board: list, wp_brd: list, bp_brd: list) -> tuple:
     wp_moves = []
     bp_moves = []
-    if wp_brd:
-        for pawn in wp_brd:
-            if pawn + 8 > 54:  # Promotion move
-                wp_moves.append((pawn % 8, 'promotion'))  ##TODO implement this
-            if pawn < 8:  # Pawn not moved
-                if board[pawn + 16] != 0:
-                    wp_moves.append((pawn, 16))
-            if board[pawn + 8] != 0:
-                wp_moves.append((pawn, 8))
-    if bp_brd:
-        for pawn in bp_brd:
-            if pawn - 8 < 8:  # Promotion move
-                bp_moves.append((pawn % 8, 'promotion'))
-            if pawn > 54:  # Pawn not moved
-                if board[pawn - 16] != 0:
-                    bp_moves.append((pawn, -16))
-            if board[pawn - 8] != 0:
-                bp_moves.append((pawn, -8))
+    for pawn in wp_brd:
+        if pawn + 8 > 54:  # Promotion move
+            wp_moves.append((pawn % 8, 'promotion'))  ##TODO implement this
+        if pawn < 8:  # Pawn not moved
+            if board[pawn + 16] != 0:
+                wp_moves.append((pawn, 16))
+        if board[pawn + 8] != 0:
+            wp_moves.append((pawn, 8))
+
+    for pawn in bp_brd:
+        if pawn - 8 < 8:  # Promotion move
+            bp_moves.append((pawn % 8, 'promotion'))
+        if pawn > 54:  # Pawn not moved
+            if board[pawn - 16] != 0:
+                bp_moves.append((pawn, -16))
+        if board[pawn - 8] != 0:
+            bp_moves.append((pawn, -8))
+
     return wp_moves, bp_moves
 
 
-"""Two functions above just use a while loop till the end of the board. There probably is a way more efficient way to do 
+"""Two functions below just use a while loop till the end of the board. There probably is a way more efficient way to do 
 this"""
 """
-## Revision of the two functions below
-For the 
-Depth will be one for the king and to the end of the board for other pieces.
 Both functions have the same logic.
 Piece is just the index of the piece.
-Eliminating illegal moves for the king is another days concern.
 """
-
-"""Having that much computational heavy work with while loops and stuff is ridiculous here since we only have 8 values to 
-look at. But then there is the question how will we require stuff like if there is a piece in front of us, what piece is it
-and that requires iterating but that defeats the whole point."""
 
 
 def diagonal_moves(board: list, piece: int, color: int) -> tuple:
     # There are 4 directions we need to iterate through
     moves: list = []
+    directions = [9, 7, -7, -9]
     checking_the_enemy_king: bool = False
-    # up right
-    up_right = piece
-    while take_step(board, up_right, 9, color)[0]:
-        if take_step(board, up_right, 7, color)[1] == 3:
-            checking_the_enemy_king = True
-        up_right += 9
-        moves.append(up_right)
-    # up_left
-    up_left = piece
-    while take_step(board, up_left, 7, color)[0]:
-        if take_step(board, up_left, 7, color)[1] == 3:
-            checking_the_enemy_king = True
-        up_left += 7
-        moves.append(up_left)
-    # down_right
-    down_right = piece
-    while take_step(board, down_right, -7, color)[0]:
-        if take_step(board, down_right, 0, color)[1] == 3:
-            checking_the_enemy_king = True
-        down_right -= 7
-        moves.append(down_right)
-    # down_left
-    down_left = piece
-    while take_step(board, down_left, -9, color)[0]:
-        if take_step(board, down_left, 0, color)[1] == 3:
-            checking_the_enemy_king = True
-        down_left -= 9
-        moves.append(down_left)
+
+    for direction in directions:
+        sqr = piece
+        while True:
+            valid, state = take_step(board, sqr, direction, color)
+            if not valid:
+                break
+            sqr += direction
+            moves.append(sqr)
+            if state == 3:
+                checking_the_enemy_king = True
+                break
+            if state == 2:
+                break
 
     return moves, checking_the_enemy_king
 
 
 def straight_moves(board: list, piece: int, color: int) -> tuple:
+    # There are 4 directions we need to iterate through
     moves: list = []
+    directions = [8, 1, -1, -8]
     checking_the_enemy_king: bool = False
-    # Up
-    up: int = piece
-    while take_step(board, up, 8, color)[0]:
-        if take_step(board, up, 0, color)[1] == 3:
-            checking_the_enemy_king = True
-        up += 8
-        moves.append(up)
-    # right
-    right: int = piece
-    while take_step(board, right, 1, color)[0]:
-        if take_step(board, right, 0, color)[1] == 3:
-            checking_the_enemy_king = True
-        right += 1
-        moves.append(right)
-    # down
-    down: int = piece
-    while take_step(board, down, -8, color)[0]:
-        if take_step(board, down, 0, color)[1] == 3:
-            checking_the_enemy_king = True
-        down -= 8
-        moves.append(down)
-    # left
-    left: int = piece
-    while take_step(board, left, -1, color)[0]:
-        if take_step(board, left, 0, color)[1] == 3:
-            checking_the_enemy_king = True
-        left -= 1
-        moves.append(left)
+
+    for direction in directions:
+        sqr = piece
+        while True:
+            valid, state = take_step(board, sqr, direction, color)
+            if not valid:
+                break
+            sqr += direction
+            moves.append(sqr)
+            if state == 3:
+                checking_the_enemy_king = True
+                break
+            if state == 2:
+                break
 
     return moves, checking_the_enemy_king
