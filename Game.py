@@ -1,6 +1,5 @@
-import Pieces
-
 
 # Rules, main logic etc. goes here
 class Game:
-    pass
+    def __init__(self):
+        pass

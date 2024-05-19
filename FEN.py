@@ -5,7 +5,7 @@
 """ We want to swap out the order of rows in the fen string to be able to work with it since we will
  construct rest of the logic assuming we go from A1 to H8  (A1, A2 .... B1, B2 .... H7, H8) """
 
-import Pieces
+import Custom_Exceptions
 
 # Assigning numbers is a temporary solution
 WHITE = 0
@@ -13,48 +13,34 @@ BLACK = 1
 
 
 def fen_refine(fen: str):
-    fen_is_valid = True
-    ref_fen: str = ""
-    color_to_move = None
+    if " " not in fen:
+        raise Custom_Exceptions.Print_Problem("FEN Error", "FEN string must contain a space to separate the board and side to move.")
 
-    if " " in fen:
-        f = fen.split(" ")
-        fen_board = f[0]
-        if f[1].lower() == "w":
-            color_to_move = WHITE
-        elif f[1].lower() == "b":
-            color_to_move = BLACK
-        else:
-            fen_is_valid = False
-
-        # We don't do anything about the last part of the FEN yet
-
+    f = fen.split(" ")
+    fen_board = f[0]
+    if f[1].lower() == "w":
+        color_to_move = WHITE
+    elif f[1].lower() == "b":
+        color_to_move = BLACK
     else:
-        fen_is_valid = False
+        raise Custom_Exceptions.Print_Problem("FEN Error", "Invalid side to move. It must be 'w' or 'b'.")
+    # TODO We don't do anything about the last part of the FEN yet
 
-    if "/" in fen_board:
-        rows: list = fen_board.split("/")
-    else:
-        fen_is_valid = False
+    if "/" not in fen_board:
+        raise Custom_Exceptions.Print_Problem("FEN Error", "FEN board part must contain '/' to separate rows.")
 
+    rows: list = fen_board.split("/")
     if len(rows) != 8:
-        fen_is_valid = False
+        raise Custom_Exceptions.Print_Problem("FEN Error", "FEN board must have exactly 8 rows.")
 
-    if fen_is_valid:
-        rows.reverse()
-        ref_fen = "/".join(rows)
+    rows.reverse()
+    ref_fen = "/".join(rows)##TODO##Optimize## We are currently first adding slashes and packing the FEN only to later unpack it again.##
 
-    return fen_is_valid, color_to_move, ref_fen
+    return color_to_move, ref_fen, rows
 
 
-# DELETE
 a = fen_refine("rnb1kbnr/ppp2ppp/8/3pp1N1/2qPP3/8/PPP2PPP/R1BQKBNR w KQkq - 0 1")
-
-if not a[0]:
-    print("Invalid FEN string")
-else:
-    print(a[2])
-# DELETE
+print(a[2])
 
 
 def read_fen(fen_board: str):
