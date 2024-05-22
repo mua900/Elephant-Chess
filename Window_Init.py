@@ -44,7 +44,7 @@ def set_window_to_square(win_width, win_height, event_w, event_h):
         pygame.display.set_mode((bigger_one, bigger_one), pygame.RESIZABLE)
 
     if pygame.key.get_pressed():
-        load_pieces("kiwen-suwi", 0)
+        load_pieces("kiwen-suwi", 0) ##TODO Biggest TODO at the moment. Find and bring cairo
 
 
 def load_pieces(piece_set: str, sqr_positions):

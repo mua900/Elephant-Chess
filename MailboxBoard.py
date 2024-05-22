@@ -40,6 +40,7 @@ class MailboxBoard:
         if len(rows) != 8:
             raise Custom_Exceptions.Print_Problem("FEN is not valid", "FEN does not seem to contain 8 rows!")
 
+        rows.reverse()  # FEN.py is kinda redundant now
         sqr_index: int = 0
         for i in range(8):
             for j in range(len(rows[i])):
