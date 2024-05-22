@@ -34,7 +34,7 @@ def fen_refine(fen: str):
         raise Custom_Exceptions.Print_Problem("FEN Error", "FEN board must have exactly 8 rows.")
 
     rows.reverse()
-    ref_fen = "/".join(rows)##TODO##Optimize## We are currently first adding slashes and packing the FEN only to later unpack it again.##
+    ref_fen = "/".join(rows)
 
     return color_to_move, ref_fen, rows
 
@@ -48,5 +48,3 @@ def read_fen(fen_board: str):
 
     if len(rows) != 8:
         print("Invalid fen_board in the read_fen()")
-
-    # TODO: Read the FEN, return after implementing bitboard system. #

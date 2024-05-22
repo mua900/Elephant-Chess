@@ -118,7 +118,6 @@ def pawn_moves(board: list, wp_brd: list, bp_brd: list) -> tuple:
     return wp_moves, bp_moves
 
 
-# TODO look at this some time later
 """Two functions above just use a while loop till the end of the board. There probably is a way more efficient way to do 
 this"""
 """
@@ -130,55 +129,77 @@ Piece is just the index of the piece.
 Eliminating illegal moves for the king is another days concern.
 """
 
+"""Having that much computational heavy work with while loops and stuff is ridiculous here since we only have 8 values to 
+look at. But then there is the question how will we require stuff like if there is a piece in front of us, what piece is it
+and that requires iterating but that defeats the whole point."""
 
-def diagonal_moves(board: list, piece: int, color: int) -> list:
+
+def diagonal_moves(board: list, piece: int, color: int) -> tuple:
     # There are 4 directions we need to iterate through
     moves: list = []
+    checking_the_enemy_king: bool = False
     # up right
     up_right = piece
     while take_step(board, up_right, 9, color)[0]:
+        if take_step(board, up_right, 7, color)[1] == 3:
+            checking_the_enemy_king = True
         up_right += 9
         moves.append(up_right)
     # up_left
     up_left = piece
     while take_step(board, up_left, 7, color)[0]:
+        if take_step(board, up_left, 7, color)[1] == 3:
+            checking_the_enemy_king = True
         up_left += 7
         moves.append(up_left)
     # down_right
     down_right = piece
     while take_step(board, down_right, -7, color)[0]:
+        if take_step(board, down_right, 0, color)[1] == 3:
+            checking_the_enemy_king = True
         down_right -= 7
         moves.append(down_right)
     # down_left
     down_left = piece
     while take_step(board, down_left, -9, color)[0]:
+        if take_step(board, down_left, 0, color)[1] == 3:
+            checking_the_enemy_king = True
         down_left -= 9
         moves.append(down_left)
 
-    return moves
+    return moves, checking_the_enemy_king
 
 
-def straight_moves(board: list, piece: int, color: int) -> list:
+def straight_moves(board: list, piece: int, color: int) -> tuple:
     moves: list = []
+    checking_the_enemy_king: bool = False
     # Up
-    u: int = piece
-    while take_step(board, u, 8, color)[0]:
-        u += 8
-        moves.append(u)
+    up: int = piece
+    while take_step(board, up, 8, color)[0]:
+        if take_step(board, up, 0, color)[1] == 3:
+            checking_the_enemy_king = True
+        up += 8
+        moves.append(up)
     # right
     right: int = piece
     while take_step(board, right, 1, color)[0]:
+        if take_step(board, right, 0, color)[1] == 3:
+            checking_the_enemy_king = True
         right += 1
         moves.append(right)
     # down
     down: int = piece
     while take_step(board, down, -8, color)[0]:
+        if take_step(board, down, 0, color)[1] == 3:
+            checking_the_enemy_king = True
         down -= 8
         moves.append(down)
     # left
     left: int = piece
     while take_step(board, left, -1, color)[0]:
+        if take_step(board, left, 0, color)[1] == 3:
+            checking_the_enemy_king = True
         left -= 1
         moves.append(left)
 
-    return moves
+    return moves, checking_the_enemy_king
