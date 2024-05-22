@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = cs_lib
-build_property.ProjectDir = D:\muammer\Programlama\Python\Chess Project\New Chess Project\cs_lib\
+build_property.ProjectDir = D:\muammer\Programlama\Python\Chess Project\Elephant_Chess\cs_lib\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

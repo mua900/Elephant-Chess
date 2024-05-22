@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\muammer\\Programlama\\Python\\Chess Project\\New Chess Project\\cs_lib\\cs_lib.csproj": {}
+    "D:\\muammer\\Programlama\\Python\\Chess Project\\Elephant_Chess\\cs_lib\\cs_lib.csproj": {}
   },
   "projects": {
-    "D:\\muammer\\Programlama\\Python\\Chess Project\\New Chess Project\\cs_lib\\cs_lib.csproj": {
+    "D:\\muammer\\Programlama\\Python\\Chess Project\\Elephant_Chess\\cs_lib\\cs_lib.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\muammer\\Programlama\\Python\\Chess Project\\New Chess Project\\cs_lib\\cs_lib.csproj",
+        "projectUniqueName": "D:\\muammer\\Programlama\\Python\\Chess Project\\Elephant_Chess\\cs_lib\\cs_lib.csproj",
         "projectName": "cs_lib",
-        "projectPath": "D:\\muammer\\Programlama\\Python\\Chess Project\\New Chess Project\\cs_lib\\cs_lib.csproj",
+        "projectPath": "D:\\muammer\\Programlama\\Python\\Chess Project\\Elephant_Chess\\cs_lib\\cs_lib.csproj",
         "packagesPath": "C:\\Users\\mua36\\.nuget\\packages\\",
-        "outputPath": "D:\\muammer\\Programlama\\Python\\Chess Project\\New Chess Project\\cs_lib\\obj\\",
+        "outputPath": "D:\\muammer\\Programlama\\Python\\Chess Project\\Elephant_Chess\\cs_lib\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mua36\\AppData\\Roaming\\NuGet\\NuGet.Config",
