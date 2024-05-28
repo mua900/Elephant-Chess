@@ -1,9 +1,9 @@
 import Custom_Exceptions
-import Match_Piece
+import Utils
 
 
-def get_board_from_fen(fen: str) -> (list, list):
-    pieces = []
+def get_board_from_fen(fen: str) -> (list, list, int):  # A list instead of a 1D array, a list of tuples, an int either 0 or 1
+    pieces: list = []
 
     board = [0] * 64
     if not ("/" in fen and " " in fen):
@@ -34,10 +34,10 @@ def get_board_from_fen(fen: str) -> (list, list):
             if rows[row][char].isdigit():
                 sqr_index += int(rows[row][char]) - 1
             elif rows[row][char].isalpha():
-                pieces.append((sqr_index, Match_Piece.match_piece(rows[row][char])))
+                pieces.append(Utils.match_piece(rows[row][char], sqr_index)) ## TODO we are using tuples inside tuples. Create a struct or something.
                 board[sqr_index] = rows[row][char]
             else:
                 raise Custom_Exceptions.PrintProblem("FEN is not valid", "There are invalid character types in the FEN")
             sqr_index += 1
 
-    return board, pieces
+    return board, pieces, color_to_move

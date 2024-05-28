@@ -1,37 +1,64 @@
 import math
+import Moves
 
 
 class Piece:
+
     value: int
     letter: str
-    color: int  # White = 0, black = 1
+
+    def __init__(self, color: int, position: int):
+        self.color: int = color  # White = 0, black = 1
+        self.position: int = position
+
+    def get_moves(self, board: list):
+        raise NotImplementedError("Custom // This method should be overridden in the subclasses.")
 
 
 class Pawn(Piece):
-    Piece.value = 1
+    value = 1
     letter = 'p'
+
+    def get_moves(self, board: list):
+        Moves.pawn_moves(board, self.position, self.color)
 
 
 class Rook(Piece):
-    Piece.value = 5
+    value = 5
     letter = 'r'
+
+    def get_moves(self, board: list):
+        Moves.horizontal_and_vertical_moves(board, self.position, self.color, 8)
 
 
 class Queen(Piece):
-    Piece.value = 9
+    value = 9
     letter = 'q'
+
+    def get_moves(self, board: list):
+        Moves.horizontal_and_vertical_moves(board, self.position, self.color, 8)
+        Moves.diagonal_moves(board, self.position, self.color, 8)
 
 
 class King(Piece):
-    Piece.value = math.inf
+    value = math.inf
     letter = 'k'
+
+    def get_moves(self, board: list):
+        pass
 
 
 class Bishop(Piece):
-    Piece.value = 3
+    value = 3
     letter = 'b'
+
+    def get_moves(self, board: list):
+        Moves.diagonal_moves(board, self.position, self.color, 8)
 
 
 class Knight(Piece):
-    Piece.value = 3
+    value = 3
     letter = 'n'
+
+    def get_moves(self, board: list):
+        Moves.knight_moves(board, self.position, self.color)

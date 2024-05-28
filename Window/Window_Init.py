@@ -3,7 +3,7 @@
 import pygame
 import sys
 import os
-import MathUtils
+from Game import MathUtils
 import cairosvg
 from io import BytesIO
 
