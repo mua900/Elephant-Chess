@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Data;
+using System.Text.RegularExpressions;
 
 /*
 Explaining all var names above will be exhausting. All will be named according to this table where the most of the things are represented with a single later. Var names will be consturusted from these.
@@ -23,26 +25,25 @@ namespace cs_lib{
 public class Bitboard
 {
     // Bitboards will live and delt with here.
-    public static int bitboard_generator(char piece_to_search, string board){
-
-        // Necessary checks for valid inputs into function
-        if (!"KkQqRrBbNnPp".Contains(piece_to_search)){
-            Console.WriteLine("There is a problem with the piece we are searching on the board! - cs_Library>Bitboard>bitboard_generator");
-        }
-
-        int bitboard = 0;
-        for (int i = 0; i < board.Length; i++){
-            if (char.IsDigit(board[i])){
-                i += (int)board[i] - 1;
-            }
-
-            if (board[i] == piece_to_search){
-                bitboard |= 1 << i;
+    public static int[] bitboard_generator(char piece_to_search, string fen){
+        int[] bitboard = new int[64];
+        int brd_index = 0;
+        for (int i = 0; i < fen.Length; i++){
+            switch (fen[i]){
+                case IsDigit(fen[i]):
+                    brd_index += Convert.ToInt32(fen[i]) - 1;
+                    continue;
+                case 'K':
+                    bitboard[1] = 0;
+                    continue;
+                default:
+                    break;
             }
         }
         return bitboard;
     }
 }
+
 
 public class Move_Generator(){
     // TODO -> look up here.

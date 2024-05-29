@@ -3,9 +3,9 @@
 import pygame
 import sys
 import os
-from Game import MathUtils
-import cairosvg
-from io import BytesIO
+import MathUtils
+# import cairosvg
+# from io import BytesIO
 
 pygame.init()
 
@@ -69,10 +69,10 @@ def load_pieces(piece_set: str, sqr_positions):
     # Draw the pieces we loaded in
 
 
-def svg_to_surface(svg_file):  # Necessary for the draw_pieces()
-    png_data = cairosvg.svg2png(url=svg_file)
-    image = pygame.image.load(BytesIO(png_data))
-    return image
+#def svg_to_surface(svg_file):  # Necessary for the draw_pieces()
+#    png_data = cairosvg.svg2png(url=svg_file)
+#    image = pygame.image.load(BytesIO(png_data))
+#    return image
 
 
 while True:

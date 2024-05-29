@@ -6,7 +6,9 @@ def eval_function(pieces: list) -> int:  # Just count the pieces with their valu
     piece_value_sum: int = 0
 
     for p in pieces:
-        piece = Utils.match_piece(p)
+        if p == 0:
+            continue
+        piece = Utils.match_piece(p, 0)  # We can just pass 0 here for the position since we are using this only for calculating value sums, we only care about the type.
         if piece.color == 0:
             piece_value_sum += piece.value
         elif piece.color == 1:

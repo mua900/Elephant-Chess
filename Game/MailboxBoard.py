@@ -2,10 +2,8 @@ import Custom_Exceptions
 import Utils
 
 
-def get_board_from_fen(fen: str) -> (list, list, int):  # A list instead of a 1D array, a list of tuples, an int either 0 or 1
-    pieces: list = []
-
-    board = [0] * 64
+def get_board_from_fen(fen: str) -> (list, int):  # A list instead of a 1D array, a list of tuples, an int either 0 or 1
+    board: list = [0] * 64
     if not ("/" in fen and " " in fen):
         raise Custom_Exceptions.PrintProblem(
             "FEN is not valid",
@@ -29,15 +27,17 @@ def get_board_from_fen(fen: str) -> (list, list, int):  # A list instead of a 1D
 
     rows.reverse()
     sqr_index: int = 0
-    for row in range(8):
-        for char in range(len(rows[row])):
-            if rows[row][char].isdigit():
-                sqr_index += int(rows[row][char]) - 1
-            elif rows[row][char].isalpha():
-                pieces.append(Utils.match_piece(rows[row][char], sqr_index)) ## TODO we are using tuples inside tuples. Create a struct or something.
-                board[sqr_index] = rows[row][char]
+    for i in range(8):
+        for j in range(len(rows[i])):
+            if rows[i][j].isdigit():
+                sqr_index += int(rows[i][j]) - 1
+            elif rows[i][j].isalpha():
+                board[sqr_index] = (Utils.match_piece(rows[i][j], sqr_index))
             else:
                 raise Custom_Exceptions.PrintProblem("FEN is not valid", "There are invalid character types in the FEN")
             sqr_index += 1
 
-    return board, pieces, color_to_move
+    return board, color_to_move
+
+
+print(get_board_from_fen("8/ppk3pp/8/3K4/8/8/PP3PPP/8 b - - 0 26"))

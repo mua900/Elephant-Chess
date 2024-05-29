@@ -4,6 +4,9 @@ import Moves
 
 class Piece:
 
+    def __eq__(self, other):
+        return isinstance(self, other) and self.color == other.color and self.position == other.position
+
     value: int
     letter: str
 
@@ -44,8 +47,10 @@ class King(Piece):
     value = math.inf
     letter = 'k'
 
-    def get_moves(self, board: list):
-        pass
+    def get_moves(self, board: list, danger_sqrs: list = None):
+        if danger_sqrs is None:
+            danger_sqrs = []
+        Moves.king_moves(board, danger_sqrs, self.color)
 
 
 class Bishop(Piece):
