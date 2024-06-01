@@ -3,7 +3,7 @@ import Utils
 
 
 def get_board_from_fen(fen: str) -> (list, int):  # A list instead of a 1D array, a list of tuples, an int either 0 or 1
-    board: list = [0] * 64
+    board: list = [None] * 64
     if not ("/" in fen and " " in fen):
         raise Custom_Exceptions.PrintProblem(
             "FEN is not valid",

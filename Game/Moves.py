@@ -1,3 +1,4 @@
+from typing import List, Tuple
 import Custom_Exceptions
 import Pieces
 
@@ -83,15 +84,15 @@ def get_moves_global(board: list, move_turn: int) -> tuple:  # move_turn is the 
     return w_moves, b_moves
 
 
-def king_moves(board: list, danger_sqrs: list, color: int):
+def king_moves(board: list, loc: int, restricted_sqrs: list, color: int):
     moves: list = []
-    pos_move_sqrs: list = [-9, -8, -7, -1, 1, 7, 8, 9]
-    for sqr in pos_move_sqrs:
-        if -1 < sqr < 64 and sqr not in danger_sqrs:
-            if color == 0 and not sqr.isupper():
+    possible_move_sqrs: list = [loc - 9, loc - 8, loc - 7, loc - 1, loc + 1, loc + 7, loc + 8, loc + 9]
+    for sqr in possible_move_sqrs:
+        if -1 < sqr < 64 and sqr not in restricted_sqrs:
+            if board[sqr] is None:
                 moves.append(sqr)
-            if color == 1 and not sqr.islower():
-                moves.append(sqr)
+            elif not board[sqr].color == color:
+                moves.append(color)
     return moves
 
 
@@ -102,7 +103,7 @@ def take_step(brd: list, loc: int, step: int,
     # empty = 0, there is a blocking location = 1, there is an enemy location to capture = 2, there is a check = 3
     sqr_index: int = loc + step
     square = brd[sqr_index]
-    if square == 0:
+    if square is None:
         return True, 0
     if color == 0:
         if square == Pieces.King(1, sqr_index):
@@ -116,40 +117,39 @@ def take_step(brd: list, loc: int, step: int,
         return False, 1
 
 
-def pawn_moves(board: list, location: int, color: int) -> tuple[list, list, bool]:
-    moves: list = []
+def pawn_moves(board: List, location: int, color: int) -> Tuple[List[int], List[int], bool]:
+    moves: List[int] = []
+    attacking_squares: List[int] = []
     checking_the_enemy_king: bool = False
-    attacking_sqrs: list = []
-    if color == 0:
-        attacking_sqrs = [location + 7, location + 9]
-        for sqr in attacking_sqrs:
-            if board[sqr] == Pieces.King(1, sqr):
-                checking_the_enemy_king = True
 
-        if location + 8 > 54:  # Promotion move
-            moves.append((location % 8, 'promotion'))  ##  TODO implement this
-        elif location < 8:  # Pawn not moved
-            if board[location + 16] != 0:
-                moves.append(location + 16)
-        elif board[location + 8] != 0:
-            moves.append(location + 8)
-    elif color == 1:
-        attacking_sqrs = [location - 9, location - 7]
-        for sqr in attacking_sqrs:
-            if board[sqr] == Pieces.King(0, sqr):
-                checking_the_enemy_king = True
+    if color not in (0, 1):
+        raise ValueError("Invalid color. Color must be 0 (white) or 1 (black).")
 
-        if location - 8 < 8:  # Promotion move
-            moves.append((location % 8, 'promotion'))
-        if location > 54:  # Pawn not moved
-            if board[location - 16] != 0:
-                moves.append(location - 16)
-        if board[location - 8] != 0:
-            moves.append(location - 8)
+    if color == 0:  # White pawn
+        forward_one = location + 8
+        forward_two = location + 16
+        promotion_row = range(56, 64)
+        attacking_squares = [location + 7, location + 9]
+    else:  # Black pawn
+        forward_one = location - 8
+        forward_two = location - 16
+        promotion_row = range(0, 8)
+        attacking_squares = [location - 9, location - 7]
+
+    for sqr in attacking_squares:
+        if 0 <= sqr < 64 and board[sqr] == Pieces.King(1 - color, sqr):
+            checking_the_enemy_king = True
+
+    if forward_one in promotion_row:
+        moves.append((location % 8, 'promotion'))  ## TODO implement
     else:
-        raise ValueError("Custom // There is a pawn that is not 0 or 1 for color.")
+        if 0 <= forward_one < 64 and board[forward_one] is None:
+            moves.append(forward_one)
+        if (color == 0 and location < 16) or (color == 1 and location >= 48):
+            if 0 <= forward_two < 64 and board[forward_two] is None:
+                moves.append(forward_two)
 
-    return moves, attacking_sqrs, checking_the_enemy_king  # If you ever change this, the method that calls this globally reaches its outputs thorough index.
+    return moves, attacking_squares, checking_the_enemy_king  # If you ever change this line, the method that calls this from Game.py globally reaches its outputs thorough index.
 
 
 """
@@ -197,7 +197,8 @@ def generate_moves_for_direction(board: list, location: int, color: int, directi
     return moves, checking_the_enemy_king, has_a_pin_on_the_enemy_king, pieces_seen_through  # If you ever change this, the method that calls this globally reaches its outputs thorough index.
 
 
-"""We currently don't do anything with the has_a_pin_on_the_enemy_king and pieces_seen_through so its garbage at the moment but keep because maybe we will decide to add some ai and it will be useful."""
+"""We currently don't do anything with the has_a_pin_on_the_enemy_king and pieces_seen_through so its garbage at the moment
+but keep because maybe we will decide to add some ai and it will be useful."""
 
 
 def diagonal_moves(board: list, location: int, color: int, depth: int) -> tuple:

@@ -2,13 +2,14 @@ import MailboxBoard
 import Evaluation
 import Moves
 import Utils
-import Custom_Exceptions
 
 
 # This will be the entry point of the whole program.
 # Rules, main logic etc. goes here
 class Game:
     def __init__(self, starting_pos: str):
+        if starting_pos is None:
+            set_standard_start_pos()
         self.start_pos, self.start_color = MailboxBoard.get_board_from_fen(starting_pos)
         self.start_eval: int = Evaluation.eval_function(self.start_pos)
         self.move_history: list = []
@@ -26,8 +27,7 @@ class Game:
         self.white_moves: list = []
         self.black_moves: list = []
 
-    def generate_moves(self):
-        self.white_moves.extend(Moves.king_moves(self.start_pos))
+        self.white_moves, self.black_moves = Moves.get_moves_global(self.start_pos, self.start_color)
 
 
 def set_standard_start_pos():
