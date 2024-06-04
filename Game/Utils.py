@@ -206,10 +206,28 @@ def convert_between_top_left_based_indexing_and_bottom_left_based(board: list, t
     return new_board
 
 
-def search_for_the_given_input_in_legal_moves(legal_moves: dict, piece_to_move: Pieces, move: int) -> int:
-    if move in legal_moves[piece_to_move]:
-        piece_to_move.move = move
-        return move
+# Below is redundant after the same is in the function in the input section.
+"""
+def search_for_the_given_input_in_legal_moves(board: list, legal_moves: dict, piece_to_move: Pieces, move: int, *piece_map: list) -> Pieces:
+    identical_pieces_to_have_the_same_move: list = []
+
+    # If piece_map is provided, search within piece_map
+    if piece_map:
+        for piece in piece_map:
+            if piece == piece_to_move and move in legal_moves.get(piece_to_move, []):
+                identical_pieces_to_have_the_same_move.append(piece)
+    # If piece_map is not provided, search within the board
     else:
-        # Log.invalid_move()
-        raise Custom_Exceptions.PrintProblem("Invalid Move", "The move is not found in the legal moves.")
+        for piece in board:
+            if piece == piece_to_move and move in legal_moves.get(piece_to_move, []):
+                identical_pieces_to_have_the_same_move.append(piece)
+
+    # If exactly one piece can make the move, return it
+    if len(identical_pieces_to_have_the_same_move) == 1:
+        return identical_pieces_to_have_the_same_move[0]
+    else:
+        raise Custom_Exceptions.PrintProblem(
+            "Move Ambiguity",
+            "There should be exactly one piece that can make the specified move, but found {}.".format(len(identical_pieces_to_have_the_same_move))
+        )
+"""
