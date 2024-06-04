@@ -1,13 +1,31 @@
+import sys
 import MailboxBoard
 import Evaluation
 import Moves
 import Utils
 
 
+"""Send whatever command there is to send to the application UI lib here"""
+def game_over(winning_side):  ## TODO
+    print(f"The Winning Side Is {winning_side}"
+          f"Do you want to play again or quit? [y/n]")
+    y_or_n = input()
+    if y_or_n.lower() == "y":
+        start_pos = input("Give a new starting position if you want or if will start with the default, give 'd'.")
+        if start_pos == 'd':
+            set_standard_start_pos()
+        Game(start_pos)
+    else:
+        sys.exit()
+
+
 # This will be the entry point of the whole program.
-# Rules, main logic etc. goes here
 class Game:
     def __init__(self, starting_pos: str):
+        print(
+            "Welcome. Please make a move. Moves are supposed to be in standard notation."
+        )  ## TODO work on welcoming message
+
         if starting_pos is None:
             set_standard_start_pos()
         self.start_pos, self.start_color = MailboxBoard.get_board_from_fen(starting_pos)

@@ -3,15 +3,13 @@ import Pieces
 import Utils
 import Custom_Exceptions
 
-
+"""
 # This is to support standard notation.
 def handle_input(board: list, inp: str, color_to_move: int):
-    """
     Parse the input to determine the type of chess move.
     If the input is just a coordinate, it is a pawn move.
     If it includes a piece identifier, search for the moves of that piece.
     The input could also specify the start coordinate before the target square.
-    """
     # Initialize target square variable
     start_sqr: int
     target_sqr: int
@@ -72,3 +70,27 @@ def handle_input(board: list, inp: str, color_to_move: int):
     
     # Return or process target_sqr as needed
     return start_sqr, target_sqr, piece_to_move ## TODO
+"""
+
+"""Probably going to scrap the one above so maybe change the name of the one below to handle_input"""
+
+
+def parse_input(inp: str, legal_moves: dict) -> tuple:
+    piece_to_move: Pieces = None
+    col: str = " "
+    row: str = " "
+    for char in inp:
+        match char:
+            case char.isalpha():
+                if char.isupper():
+                    piece_to_move = Utils.match_piece_without_piece_loc(char)
+                else:
+                    if col is " ":
+                        col = char
+            case char.isdigit():
+                if row is " ":
+                    row = char
+            case _:
+                continue
+    target_sqr: int = Utils.board_coord_index_converter(col + row)
+    return piece_to_move, Utils.search_for_the_given_input_in_legal_moves(legal_moves, piece_to_move, target_sqr)

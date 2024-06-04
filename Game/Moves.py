@@ -1,6 +1,7 @@
 from typing import List, Tuple
 import Custom_Exceptions
 import Pieces
+import Game
 
 """
 Explaining all var names above will be exhausting. All will be named according to this table where the most of the things are
@@ -26,12 +27,17 @@ empty = 0, there is a blocking location = 1, there is an enemy location to captu
 """
 
 
-## Placeholder
-def game_over():  ## TODO
-    pass
+def get_the_move_on_board(board: list, move: Tuple[int],
+                                 piece):  # move[0] is the square we are moving from move[1] is the target square.
+    piece_captured: Pieces = None
+    sqr_to_move = board[move[1]]
+    if sqr_to_move is not None:
+        piece_captured = sqr_to_move
+    board[move[0]] = None
+    board[move[1]] = piece
+    return board, piece_captured
 
 
-#  A global function to call when generating moves.
 def get_moves_global(board: list, move_turn: int) -> tuple:  # move_turn is the half move count since the start of the game
 
     w_moves: list = []
@@ -77,10 +83,10 @@ def get_moves_global(board: list, move_turn: int) -> tuple:  # move_turn is the 
 
     if move_turn % 2 == 0:
         if len(w_k_moves) == 0:
-            game_over()
+            Game.game_over("Black")
     else:
         if len(b_k_moves) == 0:
-            game_over()
+            Game.game_over("White")
     return w_moves, b_moves
 
 

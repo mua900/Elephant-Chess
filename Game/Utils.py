@@ -1,6 +1,7 @@
 from typing import List
 import Custom_Exceptions
 import Pieces
+import Log
 
 column_num: dict = {
     'A': 0,
@@ -193,3 +194,22 @@ def piece_board_generator(pieces_brd: list) -> dict:
         piece_boards[piece].append(piece.position)
 
     return piece_boards
+
+
+def convert_between_top_left_based_indexing_and_bottom_left_based(board: list, topl_to_bottoml: int) -> list:
+    # Give -1 to topl_to_bottoml for the reverse operation.
+    new_board: list = [None] * 64
+    for index, sqr in enumerate(board):
+        row = index // 8
+        add = (8 - (2 * row + 1)) * 8
+        new_board[index + add * topl_to_bottoml] = board[index]
+    return new_board
+
+
+def search_for_the_given_input_in_legal_moves(legal_moves: dict, piece_to_move: Pieces, move: int) -> int:
+    if move in legal_moves[piece_to_move]:
+        piece_to_move.move = move
+        return move
+    else:
+        # Log.invalid_move()
+        raise Custom_Exceptions.PrintProblem("Invalid Move", "The move is not found in the legal moves.")

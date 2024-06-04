@@ -1,6 +1,7 @@
 import Moves
 
 
-def search_ahead(depth: int):
-    # for i in range(depth):
-    pass
+def search_ahead(board: list, color_turn: int, depth: int):  ##TODO
+    moves_ahead: dict = {}
+    for i in range(depth):
+        pass

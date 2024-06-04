@@ -1,5 +1,4 @@
 import math
-
 import Custom_Exceptions
 import Moves
 
@@ -11,6 +10,7 @@ class Piece:
 
     value: int
     letter: str
+    move: int
 
     def __init__(self, color: int, *args):  # Arg[0] for location
         self.color: int = color  # White = 0, black = 1
