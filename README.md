@@ -1,0 +1,1 @@
+This is my first ever real project. I am abondoning it right now since it is just a simple python chess project i tryied and it's pretty terrible. I was supposed to do something about gui but its not there. It is just a simple non-functional python project.
